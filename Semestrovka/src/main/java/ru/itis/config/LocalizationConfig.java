@@ -4,6 +4,7 @@ import org.springframework.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.*;
 import org.springframework.validation.*;
+import org.springframework.validation.beanvalidation.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.*;
@@ -24,6 +25,13 @@ public class LocalizationConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
+
+    @Bean
+	public LocalValidatorFactoryBean getValidator() {
+    	LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+    	validator.setValidationMessageSource(messageSource());
+    	return validator;
+	}
 
     @Bean
     public LocaleResolver localeResolver() {
