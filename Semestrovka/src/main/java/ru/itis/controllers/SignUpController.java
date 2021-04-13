@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.dto.*;
-import ru.itis.model.*;
 import ru.itis.services.*;
 
 @Controller
@@ -14,7 +13,7 @@ public class SignUpController {
 
     @GetMapping("/signUp")
     public String getSignUpPage() {
-        return "ftl/sign_up_page";
+        return "sign_up_page";
     }
 
     @PostMapping("/signUp")

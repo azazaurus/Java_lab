@@ -1,17 +1,20 @@
 package ru.itis.config;
 
 import com.zaxxer.hikari.*;
+import freemarker.cache.*;
 import freemarker.template.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.*;
+import org.springframework.core.io.*;
 import org.springframework.data.jpa.repository.config.*;
 import org.springframework.orm.jpa.*;
 import org.springframework.orm.jpa.vendor.*;
 import org.springframework.transaction.*;
 import org.springframework.transaction.annotation.*;
+import org.springframework.ui.freemarker.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.*;
 import ru.itis.util.*;
@@ -64,16 +67,16 @@ public class ApplicationConfig {
 
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
-        FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setDefaultEncoding("UTF-8");
-        configurer.setTemplateLoaderPath("/WEB-INF/");
-        return configurer;
+        return new FreeMarkerConfigurer();
     }
 
     @Bean
     public freemarker.template.Configuration configuration() {
         FreeMarkerConfigurer configurer = freemarkerConfig();
         freemarker.template.Configuration configuration = configurer.getConfiguration();
+
+        configuration.setDefaultEncoding("UTF-8");
+		configuration.setTemplateLoader(configureTemplateLoader());
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         return configuration;
     }
@@ -113,4 +116,24 @@ public class ApplicationConfig {
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
+
+    private TemplateLoader configureTemplateLoader() {
+        // Загружает spring.ftl
+		ClassTemplateLoader baseMvcTplLoader = new ClassTemplateLoader(
+			FreeMarkerConfigurer.class,
+			"");
+
+        // Загружает ftl-файлы из папки resources/pages/
+		SpringTemplateLoader pagesTemplateLoader = new SpringTemplateLoader(
+			new ClassRelativeResourceLoader(this.getClass()),
+			"/pages/");
+
+        // Загружает ftl-файлы из папки resources/mails/
+		SpringTemplateLoader mailsTemplateLoader = new SpringTemplateLoader(
+			new ClassRelativeResourceLoader(this.getClass()),
+			"/mails/");
+
+		return new MultiTemplateLoader(
+			new TemplateLoader[] { baseMvcTplLoader, pagesTemplateLoader, mailsTemplateLoader });
+	}
 }
