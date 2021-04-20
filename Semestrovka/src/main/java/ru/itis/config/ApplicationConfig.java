@@ -12,6 +12,8 @@ import org.springframework.core.io.*;
 import org.springframework.data.jpa.repository.config.*;
 import org.springframework.orm.jpa.*;
 import org.springframework.orm.jpa.vendor.*;
+import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.transaction.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.ui.freemarker.*;
@@ -34,6 +36,11 @@ public class ApplicationConfig {
 
     @Autowired
     private Environment environment;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public ExecutorService executorService() {

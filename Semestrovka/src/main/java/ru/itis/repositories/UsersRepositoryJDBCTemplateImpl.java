@@ -5,6 +5,7 @@ import org.springframework.stereotype.*;
 import ru.itis.model.*;
 
 import javax.sql.*;
+import java.util.*;
 
 @Repository
 public class UsersRepositoryJDBCTemplateImpl implements UsersRepository {
@@ -14,8 +15,10 @@ public class UsersRepositoryJDBCTemplateImpl implements UsersRepository {
         return User.builder()
                .id(row.getLong("id"))
                .email(row.getString("email"))
-               .password(row.getString("password"))
+               .hashedPassword(row.getString("password"))
                .state((User.State) row.getObject("state"))
+                .status((User.Status) row.getObject("status"))
+                .role((User.Role) row.getObject("role"))
                .confirm_code(row.getString("confirm_code"))
                .build();
     };
@@ -26,6 +29,17 @@ public class UsersRepositoryJDBCTemplateImpl implements UsersRepository {
 
     public void save(User user) {
         jdbcTemplate.update("INSERT into dbo.account(email, password, confirm_code)" +
-                " values(?, ?, ?) ", user.getEmail(), user.getPassword(), user.getConfirm_code());
+                " values(?, ?, ?) ", user.getEmail(), user.getHashedPassword(), user.getConfirm_code());
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = jdbcTemplate.query("SELECT * FROM accounts", userRowMapper);
+        return users;
     }
 }

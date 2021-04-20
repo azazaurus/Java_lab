@@ -2,6 +2,12 @@ package ru.itis.repositories;
 
 import ru.itis.model.*;
 
+import java.util.*;
+
 public interface UsersRepository {
-    public void save(User user);
+    void save(User user);
+
+    Optional<User> findByEmail(String email);
+
+    List<User> findAll();
 }

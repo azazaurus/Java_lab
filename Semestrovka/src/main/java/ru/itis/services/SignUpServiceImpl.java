@@ -1,6 +1,7 @@
 package ru.itis.services;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import ru.itis.dto.*;
 import ru.itis.model.*;
@@ -11,6 +12,9 @@ import java.util.*;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UsersRepository usersRepository;
@@ -34,7 +38,9 @@ public class SignUpServiceImpl implements SignUpService {
     public void signUp(UserForm userForm) {
         User newUser = User.builder()
                 .email(userForm.getEmail())
-                .password(userForm.getPassword())
+                .hashedPassword(passwordEncoder.encode(userForm.getPassword()))
+                .role(User.Role.USER)
+                .status(User.Status.ACTIVE)
                 .confirm_code(UUID.randomUUID().toString())
                 .build();
 
