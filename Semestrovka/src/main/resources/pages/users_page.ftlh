@@ -22,9 +22,13 @@
         </#list>
     </table>
 </div>
-<form method="post" action="/banAll">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-    <input type="submit" value="BAN">
-</form>
+<br/>
+<div>
+    <form method="post" action="/banAll">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        <input type="submit" value="BAN" style="font-weight:bold;font-size:20px;">
+    </form>
+    <img src="https://am.fffuuu.net/Upload/Images/yokarnyj_babaj_jmi_1.png" alt="Жми, ёкарный бабай!" width="25%">
+</div>
 </body>
 </html>
