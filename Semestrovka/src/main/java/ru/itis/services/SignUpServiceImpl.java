@@ -38,16 +38,17 @@ public class SignUpServiceImpl implements SignUpService {
     public void signUp(UserForm userForm) {
         User newUser = User.builder()
                 .email(userForm.getEmail())
-                .hashedPassword(passwordEncoder.encode(userForm.getPassword()))
+                .hashPassword(passwordEncoder.encode(userForm.getPassword()))
                 .role(User.Role.USER)
+                .state(User.State.CONFORMED)
                 .status(User.Status.ACTIVE)
                 .confirm_code(UUID.randomUUID().toString())
                 .build();
 
         usersRepository.save(newUser);
 
-        String confirmMail = mailsGenerator.getMailForConfirm(serverUrl, newUser.getConfirm_code());
-
-        emailUtil.sendMail(newUser.getEmail(), subject, from, confirmMail);
+//        String confirmMail = mailsGenerator.getMailForConfirm(serverUrl, newUser.getConfirm_code());
+//
+//        emailUtil.sendMail(newUser.getEmail(), subject, from, confirmMail);
     }
 }

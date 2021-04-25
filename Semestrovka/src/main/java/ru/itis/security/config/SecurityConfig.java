@@ -3,6 +3,7 @@ package ru.itis.security.config;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
+import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.core.userdetails.*;
@@ -13,7 +14,8 @@ import org.springframework.security.web.util.matcher.*;
 import javax.sql.*;
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -27,25 +29,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .authorizeRequests()
-//         .antMatchers("/signUp").permitAll()
-//        .antMatchers("/profile").authenticated()
-//        .antMatchers("/users").hasAuthority("ADMIN")
-//        .antMatchers("/banAll").hasAuthority("ADMIN")
-//        .and()
-        .formLogin()
-        .loginPage("/signIn")
-        .usernameParameter("email")
-        .defaultSuccessUrl("/profile")
-        .failureUrl("/signIn?error")
-        .and()
-        .logout()
-        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-        .invalidateHttpSession(true)
-        .deleteCookies("JSESSIONID")
-        .and()
-        .rememberMe()
-        .rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository());
+//            .authorizeRequests()
+//            .antMatchers("/signUp").permitAll()
+//            .antMatchers("/profile").authenticated()
+//            .antMatchers("/users").hasAuthority("ADMIN")
+//            .antMatchers("/banAll").hasAuthority("ADMIN")
+//            .and()
+            .formLogin()
+            .loginPage("/signIn")
+            .usernameParameter("email")
+            .defaultSuccessUrl("/profile")
+            .failureUrl("/signIn?error")
+            .and()
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .and()
+            .rememberMe()
+            .rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository());
     }
 
     @Override

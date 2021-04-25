@@ -19,6 +19,7 @@
 <h1><@spring.message "sign_up_page.registration.title"/></h1>
 <@spring.bind "userForm"/>
 <form action="/signUp" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
     <label for="firstName"><@spring.message "sign_up_page.registration.name"/></label>
     <input id="firstName" name="firstName">
     <label for="lastName"><@spring.message "sign_up_page.registration.second_name"/></label>

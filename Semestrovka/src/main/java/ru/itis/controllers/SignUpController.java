@@ -1,6 +1,7 @@
 package ru.itis.controllers;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -17,6 +18,7 @@ public class SignUpController {
     private SignUpService signUpService;
 
     @GetMapping("/signUp")
+    @PreAuthorize("permitAll()")
     public String getSignUpPage(Model model) {
         model.addAttribute("userForm", new UserForm());
         return "sign_up_page";
@@ -28,6 +30,7 @@ public class SignUpController {
     }
 
     @PostMapping("/signUp")
+    @PreAuthorize("permitAll()")
     public String signUp(@Valid UserForm user, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
             signUpService.signUp(user);

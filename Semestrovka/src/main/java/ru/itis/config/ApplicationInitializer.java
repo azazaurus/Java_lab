@@ -1,16 +1,14 @@
 package ru.itis.config;
 
-import lombok.SneakyThrows;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.io.support.ResourcePropertySource;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import lombok.*;
+import org.springframework.core.env.*;
+import org.springframework.core.io.support.*;
+import org.springframework.web.*;
+import org.springframework.web.context.*;
+import org.springframework.web.context.support.*;
+import org.springframework.web.servlet.*;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 public class ApplicationInitializer implements WebApplicationInitializer {
     @SneakyThrows

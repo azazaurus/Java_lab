@@ -95,7 +95,7 @@ public class ApplicationConfig {
 
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource());
-        entityManagerFactory.setPackagesToScan("ru.itis.javalab.models");
+        entityManagerFactory.setPackagesToScan("ru.itis.model");
         entityManagerFactory.setJpaVendorAdapter(hibernateJpaVendorAdapter);
         entityManagerFactory.setJpaProperties(additionalProperties());
         return entityManagerFactory;

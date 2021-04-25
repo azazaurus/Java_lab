@@ -9,14 +9,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "accounts")
+@Table(name = "account")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;
-    private String hashedPassword;
+    private String hashPassword;
     private String confirm_code;
 
     @Enumerated(value = EnumType.STRING)

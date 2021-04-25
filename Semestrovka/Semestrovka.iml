@@ -13,7 +13,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="Semestrovka" />
+          <factory-entry name="Semestrovka" value="9c3f331d-5abf-46e1-87df-a838fd0b9322" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
