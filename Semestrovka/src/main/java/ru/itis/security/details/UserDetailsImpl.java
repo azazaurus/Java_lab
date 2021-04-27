@@ -8,27 +8,32 @@ import ru.itis.model.User;
 import java.util.*;
 
 public class UserDetailsImpl implements UserDetails {
-
-    private User user;
+    private final String email;
+	private final String hashedPassword;
+	private final String role;
+	private final boolean isActive;
 
     public UserDetailsImpl(User user) {
-        this.user = user;
+        email = user.getEmail();
+        hashedPassword = user.getHashPassword();
+        role = user.getRole().toString();
+        isActive = user.isActive();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
         return Collections.singleton(authority);
     }
 
     @Override
     public String getPassword() {
-        return user.getHashPassword();
+        return hashedPassword;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return email;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isActive();
+        return isActive;
     }
 
     @Override
@@ -48,6 +53,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isActive();
+        return isActive;
     }
 }

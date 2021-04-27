@@ -10,6 +10,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.*;
 import org.springframework.core.io.*;
 import org.springframework.data.jpa.repository.config.*;
+import org.springframework.jdbc.datasource.init.*;
 import org.springframework.orm.jpa.*;
 import org.springframework.orm.jpa.vendor.*;
 import org.springframework.security.crypto.bcrypt.*;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.*;
 import org.springframework.ui.freemarker.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.*;
+import ru.itis.util.DatabasePopulatorUtils;
 import ru.itis.util.*;
 
 import javax.persistence.*;
@@ -49,7 +51,17 @@ public class ApplicationConfig {
 
     @Bean
     public DataSource dataSource() {
-        return new HikariDataSource(hikariConfig());
+    	var dataSource = new HikariDataSource(hikariConfig());
+
+    	var databasePopulator = new ResourceDatabasePopulator();
+    	databasePopulator.setContinueOnError(true);
+		DatabasePopulatorUtils.addScript(databasePopulator, "schema.sql");
+		DatabasePopulatorUtils.addScript(
+			databasePopulator,
+			"org/springframework/session/jdbc/schema-postgresql.sql");
+		DatabasePopulatorUtils.populate(databasePopulator, dataSource);
+
+		return dataSource;
     }
 
     @Bean

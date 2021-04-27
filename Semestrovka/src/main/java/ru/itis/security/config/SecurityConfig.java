@@ -10,10 +10,15 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.web.authentication.rememberme.*;
 import org.springframework.security.web.util.matcher.*;
+import org.springframework.session.config.annotation.web.http.*;
+import org.springframework.session.jdbc.config.annotation.web.http.*;
+import ru.itis.util.*;
 
 import javax.sql.*;
+import java.sql.*;
 
 @EnableWebSecurity
+@EnableJdbcHttpSession
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
