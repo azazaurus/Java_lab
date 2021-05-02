@@ -18,11 +18,11 @@ public class MainPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HikariDataSource dataSource = ConnectionHelper.getDataSource();
-        CategoriesDtoRepositoryJdbcImpl categoriesDtoRepositoryJdbc = new CategoriesDtoRepositoryJdbcImpl(dataSource);
-        CategoryDto[] categories = categoriesDtoRepositoryJdbc.findAll().toArray(new CategoryDto[0]);
-        dataSource.close();
-        req.setAttribute("categories", categories);
+//        HikariDataSource dataSource = ConnectionHelper.getDataSource();
+//        CategoriesDtoRepositoryJdbcImpl categoriesDtoRepositoryJdbc = new CategoriesDtoRepositoryJdbcImpl(dataSource);
+//        CategoryDto[] categories = categoriesDtoRepositoryJdbc.findAll().toArray(new CategoryDto[0]);
+//        dataSource.close();
+//        req.setAttribute("categories", categories);
 
         req.getRequestDispatcher("Main_Page/main_page.ftl").forward(req, resp);
 
