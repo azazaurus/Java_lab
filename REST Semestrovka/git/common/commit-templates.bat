@@ -2,6 +2,7 @@ call :CdToRootDir
 
 call :ApplyToDir %~1 .idea/runConfigurations
 git update-index %~1 src/main/resources/application.properties
+git update-index %~1 "src/main/resources/requests/User API.http"
 
 exit %ERRORLEVEL%
 
