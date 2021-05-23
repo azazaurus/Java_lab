@@ -36,8 +36,24 @@ public class UserService {
 		return UserDto.from(user);
 	}
 
-	public boolean changePassword(Long userId, String newPassword) {
-		throw new UnsupportedOperationException();
+	public boolean changePassword(Long userId, UserPasswordChangeForm passwordChangeForm) {
+		if (passwordChangeForm.getOldPassword().equals(passwordChangeForm.getNewPassword()))
+			return false;
+
+		var userResult = repository.findById(userId);
+		if (userResult.isEmpty())
+			return false;
+
+		var user = userResult.get();
+		if (!passwordEncoder.matches(passwordChangeForm.getOldPassword(), user.getPasswordHash()))
+			return false;
+
+		var passwordHash = passwordEncoder.encode(passwordChangeForm.getNewPassword());
+		user.setPasswordHash(passwordHash);
+
+		repository.save(user);
+
+		return true;
 	}
 
 	public boolean ban(Long userId) {

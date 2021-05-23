@@ -23,12 +23,12 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 
-	@PutMapping(value = "/users/{user-id}/change-password", consumes = "text/plain")
+	@PutMapping("/users/{user-id}/change-password")
 	public ResponseEntity<?> changePassword(
 			@PathVariable("user-id") Long userId,
-			@RequestBody String newPassword) {
-		if (!service.changePassword(userId, newPassword))
-			return ResponseEntity.notFound().build();
+			@RequestBody UserPasswordChangeForm passwordChangeForm) {
+		if (!service.changePassword(userId, passwordChangeForm))
+			return ResponseEntity.badRequest().build();
 
 		return ResponseEntity.ok().build();
 	}

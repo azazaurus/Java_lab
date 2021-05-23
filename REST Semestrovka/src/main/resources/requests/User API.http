@@ -11,3 +11,13 @@ Content-Type: application/json
    "email": "test@test.org",
    "password": "password"
 }
+
+###
+
+PUT http://localhost:8080/users/{{user-id}}/change-password
+Content-Type: application/json
+
+{
+   "oldPassword": "password",
+   "newPassword": "password1"
+}
