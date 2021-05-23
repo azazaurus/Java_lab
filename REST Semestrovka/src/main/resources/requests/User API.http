@@ -21,3 +21,11 @@ Content-Type: application/json
    "oldPassword": "password",
    "newPassword": "password1"
 }
+
+###
+
+DELETE http://localhost:8080/users/{{user-id}}
+
+###
+
+DELETE http://localhost:8080/users

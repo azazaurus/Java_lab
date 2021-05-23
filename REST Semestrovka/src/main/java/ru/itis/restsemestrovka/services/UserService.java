@@ -57,6 +57,29 @@ public class UserService {
 	}
 
 	public boolean ban(Long userId) {
-		throw new UnsupportedOperationException();
+		var userResult = repository.findById(userId);
+		if (userResult.isEmpty())
+			return false;
+
+		var user = userResult.get();
+		user.setStatus(User.Status.BANNED);
+
+		repository.save(user);
+
+		return true;
+	}
+
+	public boolean banAll() {
+		var users = repository.findAll();
+		if (users.isEmpty())
+			return false;
+
+		for (var user : users)
+			if (!user.isAdmin())
+				user.setStatus(User.Status.BANNED);
+
+		repository.saveAll(users);
+
+		return true;
 	}
 }

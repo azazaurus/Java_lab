@@ -40,4 +40,12 @@ public class UserController {
 
 		return ResponseEntity.ok().build();
 	}
+
+	@DeleteMapping("/users")
+	public ResponseEntity<?> ban() {
+		if (!service.banAll())
+			return ResponseEntity.badRequest().build();
+
+		return ResponseEntity.ok().build();
+	}
 }
