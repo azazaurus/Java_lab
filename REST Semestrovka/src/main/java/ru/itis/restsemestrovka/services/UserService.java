@@ -21,7 +21,7 @@ public class UserService {
 		return UserDto.from(repository.findAll());
 	}
 
-	public UserDto create(UserCreateForm userForm) {
+	public UserDto create(UserForm userForm) {
 		var passwordHash = passwordEncoder.encode(userForm.getPassword());
 		var user = new User(
 			null,
@@ -45,11 +45,11 @@ public class UserService {
 			return false;
 
 		var user = userResult.get();
-		if (!passwordEncoder.matches(passwordChangeForm.getOldPassword(), user.getPasswordHash()))
+		if (!passwordEncoder.matches(passwordChangeForm.getOldPassword(), user.getHashPassword()))
 			return false;
 
 		var passwordHash = passwordEncoder.encode(passwordChangeForm.getNewPassword());
-		user.setPasswordHash(passwordHash);
+		user.setHashPassword(passwordHash);
 
 		repository.save(user);
 

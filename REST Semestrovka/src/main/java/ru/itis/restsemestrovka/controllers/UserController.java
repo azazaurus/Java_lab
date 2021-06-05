@@ -2,6 +2,7 @@ package ru.itis.restsemestrovka.controllers;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.restsemestrovka.dto.*;
 import ru.itis.restsemestrovka.services.*;
@@ -18,7 +19,7 @@ public class UserController {
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<UserDto> create(@RequestBody UserCreateForm userForm) {
+	public ResponseEntity<UserDto> create(@RequestBody UserForm userForm) {
 		var user = service.create(userForm);
 		return ResponseEntity.ok(user);
 	}
@@ -33,6 +34,7 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@DeleteMapping("/users/{user-id}")
 	public ResponseEntity<?> ban(@PathVariable("user-id") Long userId) {
 		if (!service.ban(userId))

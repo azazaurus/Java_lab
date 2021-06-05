@@ -3,19 +3,20 @@ package ru.itis.restsemestrovka.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "\"user\"")
-public class User {
+public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String email;
-	private String passwordHash;
+	private String hashPassword;
 
 	@Enumerated(value = EnumType.STRING)
 	private State state;
@@ -27,7 +28,7 @@ public class User {
 	private Status status;
 
 	public enum State {
-		CONFORMED, NOT_CONFIRMED
+		CONFIRMED, NOT_CONFIRMED
 	}
 
 	public enum Role {
