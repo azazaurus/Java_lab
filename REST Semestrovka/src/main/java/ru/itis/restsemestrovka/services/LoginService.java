@@ -1,16 +1,16 @@
 package ru.itis.restsemestrovka.services;
 
+import com.auth0.jwt.*;
+import com.auth0.jwt.algorithms.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import ru.itis.restsemestrovka.dto.*;
-import ru.itis.restsemestrovka.models.*;
 import ru.itis.restsemestrovka.models.User;
 import ru.itis.restsemestrovka.repositories.*;
 
-import java.util.*;
 import java.util.function.*;
 
 @Service
@@ -30,19 +30,14 @@ public class LoginService {
                 .orElseThrow((Supplier<Throwable>)() -> new UsernameNotFoundException("User not found")) ;
 
         if (passwordEncoder.matches(userForm.getPassword(), user.getHashPassword())) {
-            String tokenValue = UUID.randomUUID().toString();
-            Token token = Token.builder()
-                    .token(tokenValue)
-                    .user(user)
-                    .build();
-
-            tokenRepository.save(token);
-
+            String tokenValue = JWT.create()
+	            .withSubject(user.getId().toString())
+	            .sign(Algorithm.HMAC256("secret_key"));
             return TokenDto.builder()
                     .token(tokenValue)
                     .build();
         } else {
-            throw  new UsernameNotFoundException("Invalid username or password");
+            throw new UsernameNotFoundException("Invalid username or password");
         }
     }
 
