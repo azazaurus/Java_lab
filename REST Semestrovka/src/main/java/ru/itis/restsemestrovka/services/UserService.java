@@ -5,12 +5,17 @@ import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import ru.itis.restsemestrovka.dto.*;
 import ru.itis.restsemestrovka.models.*;
+import ru.itis.restsemestrovka.redis.repository.*;
+import ru.itis.restsemestrovka.redis.service.*;
 import ru.itis.restsemestrovka.repositories.*;
 
 import java.util.*;
 
 @Service
 public class UserService {
+	@Autowired
+	private RedisUsersService redisUsersService;
+
 	@Autowired
 	private UserRepository repository;
 
@@ -27,6 +32,7 @@ public class UserService {
 			null,
 			userForm.getEmail(),
 			passwordHash,
+			null,
 			User.State.NOT_CONFIRMED,
 			User.Role.USER,
 			User.Status.ACTIVE);
@@ -81,5 +87,10 @@ public class UserService {
 		repository.saveAll(users);
 
 		return true;
+	}
+
+	public void blockUser(Long userId) {
+		User user = repository.findById(userId).orElseThrow(IllegalArgumentException::new);
+		redisUsersService.addAllTokenToBlackList(user);
 	}
 }

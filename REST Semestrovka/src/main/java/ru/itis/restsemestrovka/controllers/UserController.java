@@ -12,6 +12,7 @@ public class UserController {
 	@Autowired
 	private UserService service;
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/users")
 	public ResponseEntity<UserDto[]> get() {
 		UserDto[] users = service.getAll().toArray(new UserDto[0]);
@@ -49,5 +50,12 @@ public class UserController {
 			return ResponseEntity.badRequest().build();
 
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/users/{user_id}/block")
+	public ResponseEntity<?> blockUser(@PathVariable("user_id") Long userId ) {
+		service.blockUser(userId);
+		return ResponseEntity.ok().build();
+
 	}
 }

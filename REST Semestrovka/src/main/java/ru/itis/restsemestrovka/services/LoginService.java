@@ -9,14 +9,15 @@ import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 import ru.itis.restsemestrovka.dto.*;
 import ru.itis.restsemestrovka.models.User;
+import ru.itis.restsemestrovka.redis.service.*;
 import ru.itis.restsemestrovka.repositories.*;
 
 import java.util.function.*;
 
 @Service
 public class LoginService {
-    @Autowired
-    private TokenRepository tokenRepository;
+	@Autowired
+	private RedisUsersService redisUsersService;
 
     @Autowired
     private UserRepository userRepository;

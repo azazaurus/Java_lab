@@ -18,6 +18,8 @@ public class User implements Serializable {
 	private String email;
 	private String hashPassword;
 
+	private String redisId;
+
 	@Enumerated(value = EnumType.STRING)
 	private State state;
 
