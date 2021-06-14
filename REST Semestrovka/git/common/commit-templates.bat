@@ -1,0 +1,33 @@
+call :CdToRootDir
+
+call :ApplyToDir %~1 .idea/runConfigurations
+git update-index %~1 src/main/resources/application.properties
+git update-index %~1 "src/main/resources/requests/User API.http"
+
+exit %ERRORLEVEL%
+
+:: Procedures ::
+
+:CdToRootDir
+@echo off
+FOR /F "tokens=* USEBACKQ" %%F IN (`git rev-parse --show-cdup`) DO (
+   cd %%F\REST Semestrovka
+)
+@echo on
+exit /b 0
+
+:ApplyToDir
+@echo off
+set previousDir=%CD%
+cd %~2
+@echo on
+
+FOR /F "tokens=* USEBACKQ" %%F IN (`git ls-files`) DO (
+   git update-index %~1 %%F
+)
+
+@echo off
+cd %previousDir%
+@echo on
+
+exit /b 0
